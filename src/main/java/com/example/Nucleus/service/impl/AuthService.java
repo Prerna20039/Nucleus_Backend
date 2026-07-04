@@ -2,7 +2,7 @@ package com.example.Nucleus.service.impl;
 
 import com.example.Nucleus.dto.requestDto.authRequestDtos.LoginRequestDto;
 import com.example.Nucleus.dto.requestDto.authRequestDtos.SignUpRequestDto;
-import com.example.Nucleus.dto.responseDTO.LoginResponseDTO;
+import com.example.Nucleus.dto.responseDTO.AuthResponseDtos.LoginResponseDTO;
 import com.example.Nucleus.dto.responseDTO.AuthResponseDtos.SignupResponseDto;
 import com.example.Nucleus.event.UserSignupActivityEvent;
 import com.example.Nucleus.exception.NotFoundException;

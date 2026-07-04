@@ -15,4 +15,5 @@ public interface ProjectService {
     ProjectResponseDto UpdateProject(Long id, ProjectRequestDto projectRequestDto);
     void deleteProject(Long id);
     List<UserShortResponseDto> removeUserFromProject(Long projectId, Long userId);
+    List<ProjectResponseDto> getProjectsByWorkspace(Long workspaceId);
 }

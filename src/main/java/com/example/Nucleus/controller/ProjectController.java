@@ -59,4 +59,15 @@ public class ProjectController {
         return SucessResponseHandler.SucessResponseBuilder(HttpStatus.OK, true,
                 "Project deleted successfully", null);
     }
+
+    @GetMapping("/workspace/{workspaceId}")
+    public ResponseEntity<Object> getProjectsByWorkspace(@PathVariable Long workspaceId) {
+
+        return SucessResponseHandler.SucessResponseBuilder(
+                HttpStatus.OK,
+                true,
+                "Projects fetched successfully.",
+                projectServiceImpl.getProjectsByWorkspace(workspaceId)
+        );
+    }
 }

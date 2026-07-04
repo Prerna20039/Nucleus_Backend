@@ -166,5 +166,21 @@ public class ProjectServiceImpl implements ProjectService {
                 .map(projectUser -> modelMapper.map(projectUser, UserShortResponseDto.class))
                 .toList();
     }
+    @Override
+    public List<ProjectResponseDto> getProjectsByWorkspace(Long workspaceId) {
 
+        Workspace workspace = workspaceRepository.findById(workspaceId)
+                .orElseThrow(() -> new NotFoundException("Workspace not found."));
+
+        List<Project> projects = projectRepository.findByWorkspaceId(workspaceId);
+
+        return projects.stream()
+                .map(project -> {
+                    ProjectResponseDto response = modelMapper.map(project, ProjectResponseDto.class);
+                    response.setWorkspace(project.getWorkspace().getName());
+                    response.setWorkspaceId(project.getWorkspace().getId());
+                    return response;
+                })
+                .toList();
+    }
 }

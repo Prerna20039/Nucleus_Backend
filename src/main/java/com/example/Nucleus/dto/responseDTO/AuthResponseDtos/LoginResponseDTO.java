@@ -1,4 +1,4 @@
-package com.example.Nucleus.dto.responseDTO;
+package com.example.Nucleus.dto.responseDTO.AuthResponseDtos;
 
 import java.time.LocalDateTime;
 
