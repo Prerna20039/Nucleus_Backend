@@ -116,7 +116,6 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    @CacheEvict(cacheNames = "workspaceProjects", key = "#result.WorkspaceId")
     public ProjectResponseDto UpdateProject(Long id, ProjectRequestDto projectRequestDto) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Project not found."));

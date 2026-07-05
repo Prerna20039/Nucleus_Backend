@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
     private S3ServiceImpl s3ServiceImpl;
 
     @Override
-    @Cacheable(cacheNames = "userData" , key = "#id")
     public UserResponseDto getUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("User not found with this id."));
@@ -42,7 +41,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @CachePut(cacheNames = "userData", key = "#id")
     public UserResponseDto updateBasicDetails(Long id , UserProfileUpdateRequestDto userProfileUpdateRequestDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("User not found this this id"));
@@ -61,7 +59,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @CachePut(cacheNames = "userData", key = "#id")
     public UserResponseDto updateProfileImg(Long id, MultipartFile img) {
         if (img == null || img.isEmpty()) {
             throw new ParameterMissingException("Image file is required");
