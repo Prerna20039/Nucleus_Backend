@@ -73,6 +73,14 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectJoinCodeResponse generateProjectCode(Long id) {
         Project project = projectRepository.findById(id)
                 .orElseThrow(()-> new NotFoundException("Project not found."));
+        
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User user = (User) authentication.getPrincipal();
+
+        if (!project.getWorkspace().getUser().getId().equals(user.getId())) {
+            throw new AccessDeniedException("Only the workspace owner can generate invite codes.");
+        }
 
         String code = randomCodeGenerator.generateCode(6);
         ProjectJoinCode projectJoinCode = new ProjectJoinCode();
@@ -178,8 +186,16 @@ public class ProjectServiceImpl implements ProjectService {
         Workspace workspace = workspaceRepository.findById(workspaceId)
                 .orElseThrow(() -> new NotFoundException("Workspace not found."));
 
-        List<Project> projects = projectRepository.findByWorkspaceId(workspaceId);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+        User user = (User) authentication.getPrincipal();
+        List<Project> projects;
+
+        if (workspace.getUser().getId().equals(user.getId())) {
+            projects = projectRepository.findByWorkspaceId(workspaceId);
+        } else {
+            projects = projectRepository.findByWorkspaceIdAndUsers_Id(workspaceId, user.getId());
+        }
         return projects.stream()
                 .map(project -> {
                     ProjectResponseDto response = modelMapper.map(project, ProjectResponseDto.class);
