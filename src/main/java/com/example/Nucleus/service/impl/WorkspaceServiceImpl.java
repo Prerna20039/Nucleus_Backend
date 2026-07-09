@@ -47,8 +47,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
             throw new RuntimeException("User is not authenticated");
         }
         User user = (User) authentication.getPrincipal();
-        List<Workspace> workspaces = workspaceRepository.findByUserId(id);
-        return workspaces.stream().map(workspace -> {
+        List<Workspace> workspaces = workspaceRepository.findAccessibleWorkspaces(user.getId());        return workspaces.stream().map(workspace -> {
             return modelMapper.map(workspace, WorkspaceResponseDto.class);
         }).toList();
     }

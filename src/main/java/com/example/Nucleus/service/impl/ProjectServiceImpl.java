@@ -56,6 +56,13 @@ public class ProjectServiceImpl implements ProjectService {
         project.setName(projectRequestDto.getName());
         project.setDescription(projectRequestDto.getDescription());
         project.setWorkspace(workspace);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        User user = (User) authentication.getPrincipal();
+
+        project.getUsers().add(user);
+
         System.out.println(project.toString());
 
         Project savedProject = projectRepository.save(project);
