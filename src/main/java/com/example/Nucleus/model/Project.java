@@ -30,11 +30,19 @@ public class Project {
     )
     private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "project")
-    private List<Task> tasks = new ArrayList<>();
+    @OneToMany(
+    mappedBy = "project",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+)
+private List<ProjectJoinCode> projectJoinCodes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "project")
-    private List<ProjectJoinCode> projectJoinCodes = new ArrayList<>();
+@OneToMany(
+    mappedBy = "project",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+)
+private List<Task> tasks = new ArrayList<>();
 
     //Methods
 

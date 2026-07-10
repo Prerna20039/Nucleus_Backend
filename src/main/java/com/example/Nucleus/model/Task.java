@@ -44,10 +44,18 @@ public class Task {
     )
     private List<User> assignTo = new ArrayList<>();
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(
+    mappedBy = "task",
+    cascade = CascadeType.ALL,
+    orphanRemoval = true
+    )
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "task")
+    @OneToMany(
+        mappedBy = "task",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
     private List<Activity> activities = new ArrayList<>();
 
     //methods

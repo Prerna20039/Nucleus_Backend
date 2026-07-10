@@ -22,6 +22,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -107,7 +108,11 @@ public class ProjectServiceImpl implements ProjectService {
 
         Project project = projectCode.getProject();
 
-        if(project.getUsers().contains(user)){
+        boolean alreadyJoined = project.getUsers()
+            .stream()
+            .anyMatch(u -> u.getId().equals(user.getId()));
+
+        if (alreadyJoined) {
             throw new RuntimeException("User already part of this project.");
         }
 
@@ -144,12 +149,16 @@ public class ProjectServiceImpl implements ProjectService {
         return res;
     }
 
+    @Transactional
     @Override
     public void deleteProject(Long id) {
-        Project project = projectRepository.findById(id)
-                .orElseThrow(()-> new NotFoundException("Project not found."));
 
-        projectRepository.deleteById(id);
+        Project project = projectRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Project not found."));
+
+        project.getUsers().clear();
+
+        projectRepository.delete(project);
     }
 
     @Override
