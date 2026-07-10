@@ -161,6 +161,7 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.delete(project);
     }
 
+    @Transactional
     @Override
     public List<UserShortResponseDto> removeUserFromProject(Long projectId, Long userId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -182,7 +183,7 @@ public class ProjectServiceImpl implements ProjectService {
             throw new RuntimeException("User is not joined to this project.");
         }
 
-        project.getUsers().remove(user);
+        project.getUsers().removeIf(u -> u.getId().equals(userId));
         Project updatedProject = projectRepository.save(project);
 
         return updatedProject.getUsers().stream()

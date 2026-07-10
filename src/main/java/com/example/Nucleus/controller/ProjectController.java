@@ -3,6 +3,7 @@ package com.example.Nucleus.controller;
 import com.example.Nucleus.dto.SucessResponseHandler;
 import com.example.Nucleus.dto.requestDto.projectRequestDtos.JoinProjectDto;
 import com.example.Nucleus.dto.requestDto.projectRequestDtos.ProjectRequestDto;
+import com.example.Nucleus.dto.responseDTO.AuthResponseDtos.UserShortResponseDto;
 import com.example.Nucleus.service.impl.ProjectServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/project")
@@ -37,8 +39,14 @@ public class ProjectController {
 
     @PatchMapping("{projectId}/removeUser/{userId}")
     public ResponseEntity<Object> removeUser(@PathVariable Long projectId, @PathVariable Long userId){
-        return SucessResponseHandler.SucessResponseBuilder(HttpStatus.OK,true,
-                "User Removed from project successfully.",null);
+        projectServiceImpl.removeUserFromProject(projectId, userId);
+
+    return SucessResponseHandler.SucessResponseBuilder(
+            HttpStatus.OK,
+            true,
+            "User Removed from project successfully.",
+            null
+    );
     }
 
     @GetMapping("/users/{id}")
