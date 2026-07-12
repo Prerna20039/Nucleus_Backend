@@ -3,6 +3,9 @@ target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+*.log
+hs_err_pid*
+replay_pid*
 
 ### STS ###
 .apt_generated
@@ -34,7 +37,7 @@ build/
 
 # Spring Boot config
 application-local.properties
-application.yml
+application.propertiess
 
 # Env files
 .env
